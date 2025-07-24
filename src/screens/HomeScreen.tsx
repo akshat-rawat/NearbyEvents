@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Switch, FlatList, StyleSheet } from 'react-native';
 import { getEvents } from '../api/eventsApi';
 import { Event } from '../models/event.dto';
+import EventCard from '../components/EventCard';
 
 export default function HomeScreen() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -54,15 +55,7 @@ export default function HomeScreen() {
         data={events}
         keyExtractor={e => e.id}
         renderItem={({ item }) => (
-          <View>
-            <Text>{item.title}</Text>
-            <Text>{item.startTime}</Text>
-            <Text>{item.endTime}</Text>
-            <Text>{item.description}</Text>
-            <Text>
-              Location: {item.location.latitude}, {item.location.longitude}
-            </Text>
-          </View>
+          <EventCard event={item} onPress={function () {}} />
         )}
       />
     </View>
