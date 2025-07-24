@@ -1,8 +1,23 @@
-import React, { useState } from 'react';
-import { View, Text, Switch, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Switch, FlatList, StyleSheet } from 'react-native';
+import { getEvents } from '../api/eventsApi';
+import { Event } from '../models/event.dto';
 
 export default function HomeScreen() {
+  const [events, setEvents] = useState<Event[]>([]);
   const [mapMode, setMapMode] = useState(false);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const eventList = await getEvents();
+        setEvents(eventList);
+      } catch (error) {
+        console.error('Failed to fetch events:', error);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -33,6 +48,23 @@ export default function HomeScreen() {
           </Text>
         </View>
       </View>
+
+      <FlatList
+        contentContainerStyle={styles.list}
+        data={events}
+        keyExtractor={e => e.id}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.title}</Text>
+            <Text>{item.startTime}</Text>
+            <Text>{item.endTime}</Text>
+            <Text>{item.description}</Text>
+            <Text>
+              Location: {item.location.latitude}, {item.location.longitude}
+            </Text>
+          </View>
+        )}
+      />
     </View>
   );
 }
@@ -43,7 +75,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    top: 44,
     paddingHorizontal: 24,
     paddingVertical: 16,
     borderBottomWidth: 1,
@@ -63,5 +94,9 @@ const styles = StyleSheet.create({
   switchLabel: {
     fontSize: 14,
     color: '#757575',
+  },
+  list: {
+    padding: 24,
+    gap: 24,
   },
 });
