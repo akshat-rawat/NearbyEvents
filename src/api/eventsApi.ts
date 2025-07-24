@@ -17,8 +17,8 @@ const events: Event[] = Array.from({ length: 20 }).map(() => {
     startTime: start.toISOString(),
     endTime: end.toISOString(),
     location: {
-      latitude: faker.location.latitude({ min: 12, max: 13 }),
-      longitude: faker.location.longitude({ min: 77, max: 77 }),
+      latitude: faker.location.latitude({ min: 12.9, max: 12.99 }),
+      longitude: faker.location.longitude({ min: 77.57, max: 77.7 }),
     },
     isJoined: faker.datatype.boolean(),
   };

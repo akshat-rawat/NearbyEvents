@@ -54,6 +54,7 @@ export default function HomeScreen() {
             onValueChange={setMapMode}
             thumbColor={'#FFF'}
             trackColor={{ false: '#1F1F1F', true: '#2B7FFF' }}
+            ios_backgroundColor={'#1F1F1F'}
           />
           <Text
             style={[

@@ -6,6 +6,7 @@ import {
   formatTime,
   getDistanceFromLatLonInKm,
 } from '../utils/helpers';
+import { useCurrentLocation } from '../hooks/useCurrentLocation';
 
 interface Props {
   event: Event;
@@ -20,6 +21,8 @@ const EventCard = ({
   showTime = false,
   onPress,
 }: Props) => {
+  const { latitude, longitude } = useCurrentLocation();
+
   const date = formatDate(event.startTime);
   const timeDuration = `${formatTime(event.startTime)} - ${formatTime(
     event.endTime,
@@ -27,8 +30,8 @@ const EventCard = ({
   const distance = getDistanceFromLatLonInKm(
     event.location.latitude,
     event.location.longitude,
-    12,
-    17,
+    latitude,
+    longitude,
   );
 
   return (
