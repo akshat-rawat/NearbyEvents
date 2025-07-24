@@ -1,7 +1,8 @@
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { faker } from '@faker-js/faker';
-import { Event } from '../models/event.dto';
+import Event from '../models/event.dto';
+import { capitalizeWords } from '../utils/helpers';
 
 const events: Event[] = Array.from({ length: 20 }).map(() => {
   const start = faker.date.soon({ days: 10 });
@@ -11,13 +12,13 @@ const events: Event[] = Array.from({ length: 20 }).map(() => {
 
   return {
     id: uuidv4(),
-    title: faker.lorem.words({ min: 1, max: 3 }),
-    description: faker.lorem.sentences(2),
+    title: capitalizeWords(faker.lorem.words({ min: 1, max: 3 })),
+    description: faker.lorem.sentences(3),
     startTime: start.toISOString(),
     endTime: end.toISOString(),
     location: {
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
+      latitude: faker.location.latitude({ min: -51, max: -49.8 }),
+      longitude: faker.location.longitude({ min: 29.9, max: 31 }),
     },
     isJoined: faker.datatype.boolean(),
   };

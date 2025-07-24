@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Switch, FlatList, StyleSheet } from 'react-native';
 import { getEvents } from '../api/eventsApi';
-import { Event } from '../models/event.dto';
+import Event from '../models/event.dto';
 import EventCard from '../components/EventCard';
+import DetailScreen from './DetailScreen';
 
 export default function HomeScreen() {
   const [events, setEvents] = useState<Event[]>([]);
   const [mapMode, setMapMode] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -19,6 +21,19 @@ export default function HomeScreen() {
     };
     fetchEvents();
   }, []);
+
+  const onEventPress = (eventId: string) => {
+    setSelectedEventId(eventId);
+  };
+
+  if (selectedEventId) {
+    return (
+      <DetailScreen
+        eventId={selectedEventId}
+        onBackPress={() => setSelectedEventId(null)}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -55,7 +70,7 @@ export default function HomeScreen() {
         data={events}
         keyExtractor={e => e.id}
         renderItem={({ item }) => (
-          <EventCard event={item} onPress={function () {}} />
+          <EventCard event={item} onPress={() => onEventPress(item.id)} />
         )}
       />
     </View>

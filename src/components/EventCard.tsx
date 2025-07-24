@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Event } from '../models/Event.dto';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import Event from '../models/Event.dto';
 import {
-  capitalizeWords,
   formatDate,
   formatTime,
   getDistanceFromLatLonInKm,
@@ -10,10 +9,17 @@ import {
 
 interface Props {
   event: Event;
-  onPress: () => void;
+  showBorder?: boolean;
+  showTime?: boolean;
+  onPress?: () => void;
 }
 
-const EventCard = ({ event, onPress }: Props) => {
+const EventCard = ({
+  event,
+  showBorder = true,
+  showTime = false,
+  onPress,
+}: Props) => {
   const date = formatDate(event.startTime);
   const timeDuration = `${formatTime(event.startTime)} - ${formatTime(
     event.endTime,
@@ -26,14 +32,29 @@ const EventCard = ({ event, onPress }: Props) => {
   );
 
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.card, { borderWidth: showBorder ? 1 : 0 }]}
+      onPress={onPress}
+      disabled={!onPress}
+    >
       <View>
-        <Text style={styles.title}>{capitalizeWords(event.title)}</Text>
+        <Text style={styles.title}>{event.title}</Text>
         <Text style={styles.description}>{event.description}</Text>
       </View>
-      <Text style={styles.iconText}>{date}</Text>
-      <Text style={styles.iconText}>{timeDuration}</Text>
-      <Text style={styles.iconText}>{distance} km</Text>
+      <View style={styles.iconContainer}>
+        <Image source={require('../assets/icons/calendar.png')} />
+        <Text style={styles.iconText}>{date}</Text>
+      </View>
+      {showTime && (
+        <View style={styles.iconContainer}>
+          <Image source={require('../assets/icons/clock.png')} />
+          <Text style={styles.iconText}>{timeDuration}</Text>
+        </View>
+      )}
+      <View style={styles.iconContainer}>
+        <Image source={require('../assets/icons/location.png')} />
+        <Text style={styles.iconText}>{distance} km</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -58,6 +79,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     color: '#757575',
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   iconText: {
     fontWeight: '500',
