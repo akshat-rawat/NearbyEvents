@@ -27,8 +27,8 @@ const EventCard = ({
   const distance = getDistanceFromLatLonInKm(
     event.location.latitude,
     event.location.longitude,
-    -50,
-    30,
+    12,
+    17,
   );
 
   return (

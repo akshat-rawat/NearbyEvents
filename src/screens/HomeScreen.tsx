@@ -4,6 +4,7 @@ import { getEvents } from '../api/eventsApi';
 import Event from '../models/event.dto';
 import EventCard from '../components/EventCard';
 import DetailScreen from './DetailScreen';
+import EventMap from '../components/EventMap';
 
 export default function HomeScreen() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -65,14 +66,18 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <FlatList
-        contentContainerStyle={styles.list}
-        data={events}
-        keyExtractor={e => e.id}
-        renderItem={({ item }) => (
-          <EventCard event={item} onPress={() => onEventPress(item.id)} />
-        )}
-      />
+      {mapMode ? (
+        <EventMap events={events} onPinPress={onEventPress} />
+      ) : (
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={events}
+          keyExtractor={e => e.id}
+          renderItem={({ item }) => (
+            <EventCard event={item} onPress={() => onEventPress(item.id)} />
+          )}
+        />
+      )}
     </View>
   );
 }
