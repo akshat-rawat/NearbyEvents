@@ -39,6 +39,7 @@ const EventCard = ({
       style={[styles.card, { borderWidth: showBorder ? 1 : 0 }]}
       onPress={() => onPress && onPress(event.id)}
       disabled={!onPress}
+      testID="event-card"
     >
       <View>
         <Text style={styles.title}>{event.title}</Text>

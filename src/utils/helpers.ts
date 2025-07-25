@@ -21,7 +21,7 @@ export function formatDate(dateISO: string): string {
 export function formatTime(dateISO: string): string {
   const date = new Date(dateISO);
 
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat('en-GB', {
     hour: 'numeric',
     hour12: true,
   })

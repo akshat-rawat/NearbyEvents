@@ -18,9 +18,14 @@ export default function EventMap({ events, onPinPress }: Props) {
       : require('../assets/icons/marker.png');
   };
 
+  const getMarkerTestID = (id: string) => {
+    return id === selected?.id ? `selected-marker-${id}` : `marker-${id}`;
+  };
+
   return (
     <View style={styles.container}>
       <MapView
+        testID="map"
         style={styles.map}
         initialRegion={{
           latitude: events[0]?.location.latitude ?? 12,
@@ -29,18 +34,18 @@ export default function EventMap({ events, onPinPress }: Props) {
           longitudeDelta: 0.1,
         }}
       >
-        {events.map(e => (
+        {events.map(event => (
           <Marker
-            key={e.id}
-            coordinate={e.location}
-            onPress={() => setSelected(e)}
-          >
-            <Image source={getMarkerSource(e.id)} resizeMode="contain" />
-          </Marker>
+            key={event.id}
+            coordinate={event.location}
+            onPress={() => setSelected(event)}
+            image={getMarkerSource(event.id)}
+            testID={getMarkerTestID(event.id)}
+          />
         ))}
       </MapView>
       {selected && (
-        <View style={styles.overlay}>
+        <View style={styles.overlay} testID="overlay">
           <Image
             source={require('../assets/icons/selected-marker.png')}
             style={styles.markerIcon}
@@ -71,5 +76,7 @@ const styles = StyleSheet.create({
   markerIcon: {
     left: 16,
     bottom: -12,
+    width: 42,
+    height: 42,
   },
 });
