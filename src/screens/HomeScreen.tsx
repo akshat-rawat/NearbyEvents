@@ -66,6 +66,7 @@ export default function HomeScreen({ navigation }: ScreenProps<'Home'>) {
             thumbColor={'#FFF'}
             trackColor={{ false: '#1F1F1F', true: '#2B7FFF' }}
             ios_backgroundColor={'#1F1F1F'}
+            testID="map-switch"
           />
           <Text
             style={[
@@ -87,6 +88,7 @@ export default function HomeScreen({ navigation }: ScreenProps<'Home'>) {
           ListHeaderComponent={
             <View style={styles.sortContainer}>
               <TouchableOpacity
+                testID="sort-btn"
                 onPress={() => {
                   setSortKey(prev =>
                     prev === 'distance' ? 'date' : 'distance',
@@ -103,6 +105,7 @@ export default function HomeScreen({ navigation }: ScreenProps<'Home'>) {
             </View>
           }
           keyExtractor={e => e.id}
+          testID="event-list"
           renderItem={({ item }) => (
             <EventCard event={item} onPress={onEventPress} />
           )}

@@ -1,4 +1,4 @@
-import { sortByDate, sortByDistance } from '../src/utils/sort';
+import { sortByDate, sortByDistance } from '../../src/utils/sort';
 
 const list = [
   {
@@ -27,12 +27,14 @@ const list = [
   },
 ];
 
-it('sorts by date ascending', () => {
-  const [first] = sortByDate(list);
-  expect(first.id).toBe('2');
-});
+describe('Sort Functions', () => {
+  it('sorts by date ascending', () => {
+    const [first] = sortByDate(list);
+    expect(first.id).toBe('2');
+  });
 
-it('sorts by distance ascending', () => {
-  const [first] = sortByDistance(list, 0, 0);
-  expect(first.id).toBe('3');
+  it('sorts by distance ascending', () => {
+    const [first] = sortByDistance(list, 0, 0);
+    expect(first.id).toBe('3');
+  });
 });
