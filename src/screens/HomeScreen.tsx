@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
-  Switch,
   FlatList,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import { getEvents } from '../api/eventsApi';
 import Event from '../models/event.dto';
+import Header from '../components/Header';
 import EventCard from '../components/EventCard';
 import EventMap from '../components/EventMap';
 import { sortByDate, sortByDistance } from '../utils/sort';
@@ -49,35 +49,12 @@ export default function HomeScreen({ navigation }: ScreenProps<'Home'>) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Nearby Events</Text>
-        <View style={styles.switchContainer}>
-          <Text
-            style={[
-              styles.switchLabel,
-              { color: mapMode ? '#757575' : '#1F1F1F' },
-            ]}
-          >
-            List
-          </Text>
-          <Switch
-            value={mapMode}
-            onValueChange={setMapMode}
-            thumbColor={'#FFF'}
-            trackColor={{ false: '#1F1F1F', true: '#2B7FFF' }}
-            ios_backgroundColor={'#1F1F1F'}
-            testID="map-switch"
-          />
-          <Text
-            style={[
-              styles.switchLabel,
-              { color: mapMode ? '#2B7FFF' : '#757575' },
-            ]}
-          >
-            Map
-          </Text>
-        </View>
-      </View>
+      <Header
+        title="Nearby Events"
+        showSwitch
+        mapMode={mapMode}
+        setMapMode={setMapMode}
+      />
 
       {mapMode ? (
         <EventMap events={events} onPinPress={onEventPress} />
@@ -117,30 +94,6 @@ export default function HomeScreen({ navigation }: ScreenProps<'Home'>) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFF' },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#EEEEEE',
-  },
-  title: {
-    fontSize: 20,
-    lineHeight: 36,
-    fontWeight: '600',
-    color: '#000000',
-  },
-  switchContainer: {
-    gap: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  switchLabel: {
-    fontSize: 14,
-    color: '#757575',
-  },
   list: {
     paddingBottom: 24,
     paddingHorizontal: 24,

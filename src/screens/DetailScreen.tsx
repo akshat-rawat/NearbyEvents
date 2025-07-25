@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { getEventById } from '../api/eventsApi';
 import Event from '../models/event.dto';
+import Header from '../components/Header';
 import EventCard from '../components/EventCard';
 import FadeInButton from '../components/FadeInButton';
 import { ScreenProps } from '../navigation/RootNavigation';
@@ -36,10 +37,7 @@ export default function DetailScreen({
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={navigation.goBack} style={styles.header}>
-        <Image source={require('../assets/icons/chevron-left.png')} />
-        <Text style={styles.title}>{event.title}</Text>
-      </TouchableOpacity>
+      <Header title={event.title} onPress={navigation.goBack} />
 
       <View>
         <Image
@@ -80,21 +78,6 @@ export default function DetailScreen({
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFF' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    gap: 16,
-    borderBottomColor: '#EEEEEE',
-  },
-  title: {
-    fontSize: 20,
-    lineHeight: 36,
-    fontWeight: '600',
-    color: '#000000',
-  },
   eventImage: {
     width: '100%',
     height: 250,
