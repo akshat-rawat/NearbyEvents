@@ -10,15 +10,14 @@ import {
 import { getEvents } from '../api/eventsApi';
 import Event from '../models/event.dto';
 import EventCard from '../components/EventCard';
-import DetailScreen from './DetailScreen';
 import EventMap from '../components/EventMap';
 import { sortByDate, sortByDistance } from '../utils/sort';
 import { useCurrentLocation } from '../hooks/useCurrentLocation';
+import { ScreenProps } from '../navigation/RootNavigation';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: ScreenProps<'Home'>) {
   const [events, setEvents] = useState<Event[]>([]);
   const [mapMode, setMapMode] = useState(false);
-  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [sortedEvents, setSortedEvents] = useState<Event[]>([]);
   const [sortKey, setSortKey] = useState<'distance' | 'date'>('distance');
   const { latitude, longitude } = useCurrentLocation();
@@ -45,17 +44,8 @@ export default function HomeScreen() {
   }, [latitude, longitude]);
 
   const onEventPress = (eventId: string) => {
-    setSelectedEventId(eventId);
+    navigation.navigate('Details', { eventId: eventId });
   };
-
-  if (selectedEventId) {
-    return (
-      <DetailScreen
-        eventId={selectedEventId}
-        onBackPress={() => setSelectedEventId(null)}
-      />
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -114,7 +104,7 @@ export default function HomeScreen() {
           }
           keyExtractor={e => e.id}
           renderItem={({ item }) => (
-            <EventCard event={item} onPress={() => onEventPress(item.id)} />
+            <EventCard event={item} onPress={onEventPress} />
           )}
         />
       )}

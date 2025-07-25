@@ -12,7 +12,7 @@ interface Props {
   event: Event;
   showBorder?: boolean;
   showTime?: boolean;
-  onPress?: () => void;
+  onPress?: (id: string) => void;
 }
 
 const EventCard = ({
@@ -37,7 +37,7 @@ const EventCard = ({
   return (
     <TouchableOpacity
       style={[styles.card, { borderWidth: showBorder ? 1 : 0 }]}
-      onPress={onPress}
+      onPress={() => onPress && onPress(event.id)}
       disabled={!onPress}
     >
       <View>
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventCard;
+export default React.memo(EventCard);
