@@ -2,10 +2,7 @@
 
 A cross-platform mobile application that helps users discover and join community events in their area.
 
-<video autoplay muted loop playsinline>
-  <source src="vid.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[Watch the demo video](https://drive.google.com/file/d/1tJYcDZPcoHIjhlvTdPiTuk6gI32Z93VL/view)
 
 ## Architecture
 
